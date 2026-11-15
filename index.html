@@ -1,0 +1,282 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Guaraipo Hotelaria</title>
+<style>
+:root{color-scheme:light;--ink:#182f2a;--muted:#52655e;--line:#dce6e0;--green:#145a45;--mint:#d9eee3;--paper:#f5f7f3;--white:#fff}
+*{box-sizing:border-box}body{margin:0;background:var(--paper);color:var(--ink);font:15px/1.5 system-ui,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #b77b31;outline-offset:2px}
+header{background:#123d32;color:#fff}header>div,main{max-width:1280px;margin:auto;padding:0 28px}header>div{display:flex;align-items:center;justify-content:space-between;min-height:68px;gap:12px}.brand{font-weight:750;letter-spacing:-.02em;font-size:19px}.demo{font-size:13px;color:#d0e7dc}
+main{padding-block:36px 48px}.heading,.panel-head,.form-actions{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}h1,h2,p{margin:0}h1{font-size:clamp(28px,5vw,44px);letter-spacing:-.045em;line-height:1.1}h2{font-size:20px;letter-spacing:-.025em}.muted,small{color:var(--muted)}.heading p{margin-top:9px}
+.btn{border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--green);padding:8px 13px;font-weight:650;white-space:nowrap}.primary{background:var(--green);border-color:var(--green);color:#fff}.danger{color:#a03535}.controls{display:flex;gap:8px;align-items:center;flex-wrap:wrap}.date-label{min-width:135px;text-align:center;font-weight:650}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin:24px 0 18px}.card,.panel{border:1px solid var(--line);background:#fff;border-radius:14px}.card{padding:17px 19px}.card strong{display:block;font-size:clamp(21px,3vw,30px);letter-spacing:-.04em;margin:4px 0 1px}.panel{margin-bottom:18px;overflow:hidden}.panel-head{padding:17px 20px}.scroll{overflow:auto}.legend{display:flex;gap:16px;padding:12px 20px;flex-wrap:wrap;color:var(--muted);font-size:13px}.dot::before{content:'';display:inline-block;width:9px;height:9px;margin-right:5px;border-radius:50%;background:var(--dot,#dce6e0)}.direct{--dot:#2d8562;background:#def2e7;color:#14503b}.booking{--dot:#416da8;background:#e4ecfa;color:#294c7f}.other{--dot:#a66a27;background:#f7ebda;color:#75470e}.legend .dot{background:none;color:inherit}
+table{width:100%;border-collapse:collapse;text-align:left}th,td{padding:12px 16px;border-top:1px solid var(--line);vertical-align:middle}th{font-size:13px;color:var(--muted);background:#f8faf8}td small{display:block}.calendar{min-width:760px;table-layout:fixed}.calendar th:first-child{width:155px}.calendar th:not(:first-child){text-align:center}.calendar td{padding:5px;border-left:1px solid var(--line);height:52px}.calendar td:first-child{padding:8px 12px}.calendar .today{background:#eff7f1}.slot{width:100%;height:40px;border:0;border-radius:7px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:left;padding:0 8px;font-size:13px;font-weight:650}.slot.free{background:transparent;color:#61776d;text-align:center}.slot.free:hover{background:var(--mint)}
+.lower{display:grid;grid-template-columns:minmax(0,2.5fr) minmax(250px,1fr);gap:18px;align-items:start}.reservations{min-width:650px}.tag{padding:3px 8px;border-radius:12px;background:var(--mint);font-size:12px;white-space:nowrap}.tag.pending{background:#f9eed9;color:#774d14}.tag.canceled{background:#f0efed;color:#594e4a}.summary{padding:0 20px 13px;margin:0}.summary div{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line)}.summary dd{margin:0;font-weight:650;white-space:nowrap}.summary dt{color:var(--muted)}.footnote{padding:0 20px 16px;font-size:13px}
+dialog{width:min(560px,calc(100% - 24px));max-height:90dvh;border:1px solid var(--line);border-radius:15px;padding:22px;color:var(--ink)}dialog::backdrop{background:#132c23a0}form{margin-top:16px}.fields{display:grid;grid-template-columns:1fr 1fr;gap:11px}.wide{grid-column:1/-1}label{display:grid;gap:4px;font-weight:600;font-size:13px}input,select{width:100%;padding:8px;border-radius:7px;border:1px solid #aabdb1;background:#fff;color:var(--ink)}.form-actions{justify-content:flex-end;margin-top:14px}.error{color:#a03535;margin-top:10px}.notice{margin-top:14px}.notice:empty,.error:empty{display:none}.empty{text-align:center;color:var(--muted)}[hidden]{display:none!important}
+@media(max-width:920px){.lower{grid-template-columns:1fr}.lower .panel{margin-bottom:0}}@media(max-width:570px){header>div,main{padding-inline:14px}main{padding-top:23px}.cards{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.card{padding:12px}.panel-head{padding:13px}.fields{gap:8px}}
+</style>
+</head>
+<body>
+<header><div><span class="brand">Guaraipo Hotelaria</span><span class="demo">Modo demonstração</span></div></header>
+<main>
+  <section class="heading">
+    <div><h1>Pousada Maré Mansa</h1><p class="muted">Matinhos, PR · Visão da operação</p></div>
+    <button class="btn primary" id="new">+ Nova reserva</button>
+  </section>
+  <p id="notice" class="notice" role="status"></p>
+  <section id="cards" class="cards" aria-label="Indicadores do período"></section>
+  <section class="panel">
+    <div class="panel-head"><h2>Mapa de ocupação</h2><div class="controls">
+      <button id="prev" class="btn" aria-label="Semana anterior">‹</button>
+      <span class="date-label" id="period"></span>
+      <button id="next" class="btn" aria-label="Próxima semana">›</button>
+      <button id="today" class="btn">Hoje</button>
+    </div></div>
+    <div class="scroll" tabindex="0" aria-label="Calendário de quartos"><table class="calendar" id="calendar"></table></div>
+    <div class="legend"><span class="dot">Disponível</span><span class="dot direct">Direto / WhatsApp</span><span class="dot booking">Booking.com</span><span class="dot other">Outros</span></div>
+  </section>
+  <div class="lower">
+    <section class="panel">
+      <div class="panel-head"><h2>Reservas do período</h2><div class="controls"><label>Canal<select id="filter"><option value="">Todos os canais</option><option value="direct">Direto / WhatsApp</option><option value="booking">Booking.com</option><option value="other">Outros</option></select></label></div></div>
+      <div class="scroll" tabindex="0" aria-label="Lista de reservas"><table class="reservations"><thead><tr><th>Hóspede / grupo</th><th>Estadia</th><th>Canal</th><th>Total</th><th>Pagamento</th><th>Ação</th></tr></thead><tbody id="rows"></tbody></table></div>
+    </section>
+    <section class="panel"><div class="panel-head"><h2>Resumo financeiro</h2></div><dl class="summary" id="financial"></dl><p class="footnote muted">Valores integrais das reservas ativas com estadia no período. Saldo após comissão é uma projeção.</p></section>
+  </div>
+</main>
+<dialog id="editor" aria-labelledby="editor-title">
+  <div class="heading"><h2 id="editor-title">Nova reserva</h2><button id="close" class="btn" type="button">Fechar</button></div>
+  <form id="form">
+    <div class="fields">
+      <label class="wide">Hóspede ou grupo<input required maxlength="100" name="guest" autocomplete="off"></label>
+      <label class="wide">Quarto<select name="room" required></select></label>
+      <label>Entrada<input type="date" name="start" required></label>
+      <label>Saída<input type="date" name="end" required></label>
+      <label>Canal<select name="channel" required><option value="direct">Direto / WhatsApp</option><option value="booking">Booking.com</option><option value="other">Outros</option></select></label>
+      <label>Comissão (%)<input name="rate" type="number" min="0" max="100" step=".01" required></label>
+      <label>Diária (R$)<input name="daily" type="number" min="0" max="999999" step=".01" required></label>
+      <label>Recebido (R$)<input name="received" type="number" min="0" step=".01" required></label>
+    </div>
+    <p class="notice muted" id="estimate"></p>
+    <p class="error" id="error" role="alert"></p>
+    <div class="form-actions"><button class="btn danger" id="cancel-booking" type="button">Cancelar reserva</button><button class="btn primary" id="save" type="submit">Salvar reserva</button></div>
+  </form>
+</dialog>
+<script>
+'use strict';
+const rooms = [
+  { id:'101', name:'Suíte 101', type:'Casal' }, { id:'102', name:'Suíte 102', type:'Casal' },
+  { id:'103', name:'Suíte 103', type:'Triplo' }, { id:'104', name:'Suíte 104', type:'Triplo' },
+  { id:'201', name:'Suíte 201', type:'Família' }, { id:'202', name:'Suíte 202', type:'Família' }
+];
+const channels = {direct:'Direto / WhatsApp',booking:'Booking.com',other:'Outros'};
+const storageKey = 'guaraipo.hotelaria.demo.v1';
+const dayMs = 86400000;
+const moneyFormat = new Intl.NumberFormat('pt-BR',{style:'currency',currency:'BRL'});
+const dateFormat = new Intl.DateTimeFormat('pt-BR',{day:'2-digit',month:'2-digit',timeZone:'UTC'});
+const weekFormat = new Intl.DateTimeFormat('pt-BR',{weekday:'short',timeZone:'UTC'});
+const $ = id => document.getElementById(id);
+const money = cents => moneyFormat.format(cents / 100);
+const asDate = day => new Date(day + 'T00:00:00Z');
+const addDays = (day, offset) => new Date(asDate(day).getTime() + dayMs * offset).toISOString().slice(0,10);
+const shortDate = day => dateFormat.format(asDate(day));
+const nights = (start,end) => Math.round((asDate(end) - asDate(start)) / dayMs);
+const overlaps = (start,end,otherStart,otherEnd) => start < otherEnd && otherStart < end;
+const total = booking => nights(booking.start, booking.end) * booking.daily;
+const commission = booking => Math.round(total(booking) * booking.rate / 100);
+const escapeHtml = value => String(value).replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'})[char]);
+function today() {
+  const parts = new Intl.DateTimeFormat('en-US',{timeZone:'America/Sao_Paulo',year:'numeric',month:'2-digit',day:'2-digit'}).formatToParts(new Date());
+  const values = Object.fromEntries(parts.map(({type,value}) => [type,value]));
+  return [values.year,values.month,values.day].join('-');
+}
+function demoBookings() {
+  const data = [
+    ['Marina Costa','101',-1,2,'direct',32000,96000],
+    ['Felipe Almeida','101',3,6,'booking',34000,0],
+    ['Bruna Vieira','102',0,3,'booking',34000,51000],
+    ['Grupo Pedal do Litoral','103',1,4,'direct',40000,60000],
+    ['Grupo Pedal do Litoral','104',1,4,'direct',40000,60000],
+    ['Família Rocha','201',0,5,'booking',52000,260000],
+    ['Renata Gomes','202',3,7,'other',49000,0],
+    ['Carlos Mendes','102',5,8,'direct',32000,32000]
+  ];
+  return data.map(([guest,room,start,end,channel,daily,received],index) => ({
+    id:'demo-' + index, guest, room, start:addDays(today(),start), end:addDays(today(),end),
+    channel, daily, received, rate:channel === 'booking' ? 15 : 0, canceled:false
+  }));
+}
+function readBookings() {
+  const saved = localStorage.getItem(storageKey);
+  if (saved === null) return demoBookings();
+  const records = JSON.parse(saved);
+  if (!Array.isArray(records)) throw new Error('Reservas inválidas');
+  return records;
+}
+let week = today();
+let bookings;
+try {
+  bookings = readBookings();
+  if (localStorage.getItem(storageKey) === null) localStorage.setItem(storageKey,JSON.stringify(bookings));
+} catch {
+  bookings = demoBookings();
+  $('notice').textContent = 'Não foi possível ler o armazenamento deste navegador.';
+}
+const editor = $('editor');
+const form = $('form');
+const field = name => form.elements.namedItem(name);
+let editing = null;
+field('room').innerHTML = rooms.map(room => '<option value="' + room.id + '">' + room.name + ' · ' + room.type + '</option>').join('');
+
+function render() {
+  const end = addDays(week,7);
+  const days = Array.from({length:7}, (_, index) => addDays(week,index));
+  const period = bookings.filter(b => overlaps(b.start,b.end,week,end));
+  const active = period.filter(b => !b.canceled);
+  const occupied = active.reduce((sum,b) => sum + nights(b.start > week ? b.start : week,b.end < end ? b.end : end),0);
+  const capacity = rooms.length * 7;
+  const gross = active.reduce((sum,b) => sum + total(b),0);
+  const received = active.reduce((sum,b) => sum + b.received,0);
+  const fees = active.reduce((sum,b) => sum + commission(b),0);
+  const direct = active.filter(b => b.channel === 'direct').length;
+  $('period').textContent = shortDate(week) + ' – ' + shortDate(days[6]) + '/' + days[6].slice(0,4);
+  $('cards').innerHTML = [
+    ['Ocupação',Math.round(100 * occupied / capacity) + '%',occupied + ' de ' + capacity + ' diárias ocupadas'],
+    ['Reservas ativas',active.length,direct + ' via Direto / WhatsApp'],
+    ['Valor reservado',money(gross),'Valor bruto das estadias'],
+    ['A receber',money(gross - received),'Saldo das reservas ativas']
+  ].map(([label,value,note]) => '<article class="card"><span class="muted">' + label + '</span><strong>' + value + '</strong><small>' + note + '</small></article>').join('');
+  $('calendar').innerHTML = '<thead><tr><th scope="col">Quarto</th>' + days.map(day =>
+    '<th scope="col" class="' + (day === today() ? 'today' : '') + '">' + weekFormat.format(asDate(day)) + '<br>' + shortDate(day) + '</th>'
+  ).join('') + '</tr></thead><tbody>' + rooms.map(room => '<tr><th scope="row">' + room.name + '<br><small>' + room.type + '</small></th>' + days.map(day => {
+    const booking = active.find(b => b.room === room.id && b.start <= day && day < b.end);
+    const button = booking
+      ? '<button class="slot ' + booking.channel + '" data-edit="' + booking.id + '" title="' + escapeHtml(booking.guest) + '">' + escapeHtml(booking.guest) + '</button>'
+      : '<button class="slot free" data-room="' + room.id + '" data-day="' + day + '" aria-label="Reservar ' + room.name + ' em ' + shortDate(day) + '">—</button>';
+    return '<td class="' + (day === today() ? 'today' : '') + '">' + button + '</td>';
+  }).join('') + '</tr>').join('') + '</tbody>';
+  const filter = $('filter').value;
+  const rows = period.filter(b => !filter || b.channel === filter).sort((a,b) => a.start.localeCompare(b.start) || a.room.localeCompare(b.room));
+  $('rows').innerHTML = rows.map(b => {
+    const status = b.canceled ? ['canceled','Cancelada'] : b.received === total(b) ? ['','Quitado'] : ['pending',b.received ? 'Parcial' : 'Pendente'];
+    return '<tr><td><strong>' + escapeHtml(b.guest) + '</strong><small>Suíte ' + b.room + '</small></td><td>' +
+      shortDate(b.start) + ' – ' + shortDate(b.end) + '<small>' + nights(b.start,b.end) + ' diária(s)</small></td><td>' +
+      channels[b.channel] + '</td><td>' + money(total(b)) + '</td><td><span class="tag ' + status[0] + '">' + status[1] +
+      '</span></td><td><button class="btn" data-edit="' + b.id + '">' + (b.canceled ? 'Ver' : 'Editar') + '</button></td></tr>';
+  }).join('') || '<tr><td colspan="6" class="empty">Nenhuma reserva para este período e canal.</td></tr>';
+  $('financial').innerHTML = [
+    ['Valor reservado',gross],['Recebido',received],['A receber',gross - received],
+    ['Comissões estimadas',fees],['Saldo após comissão',gross - fees]
+  ].map(([label,amount]) => '<div><dt>' + label + '</dt><dd>' + money(amount) + '</dd></div>').join('');
+}
+function updateEstimate() {
+  const count = nights(field('start').value,field('end').value);
+  const cents = Math.round(Number(field('daily').value) * 100) * count;
+  $('estimate').textContent = count > 0 ? count + ' diária(s) · Total ' + money(cents) : '';
+}
+function openEditor(booking, room, day) {
+  editing = booking?.id ?? null;
+  const start = booking?.start ?? day ?? week;
+  const values = {
+    guest:booking?.guest ?? '', room:booking?.room ?? room ?? rooms[0].id, start,
+    end:booking?.end ?? addDays(start,1), channel:booking?.channel ?? 'direct',
+    rate:booking?.rate ?? 0, daily:booking ? booking.daily / 100 : 320,
+    received:booking ? booking.received / 100 : 0
+  };
+  Object.entries(values).forEach(([name,value]) => {
+    field(name).value = value;
+    field(name).disabled = Boolean(booking?.canceled);
+  });
+  $('editor-title').textContent = booking?.canceled ? 'Reserva cancelada' : booking ? 'Editar reserva' : 'Nova reserva';
+  $('cancel-booking').hidden = !booking || booking.canceled;
+  $('save').hidden = Boolean(booking?.canceled);
+  $('error').textContent = '';
+  updateEstimate();
+  editor.showModal();
+}
+function persist(records, message) {
+  try {
+    localStorage.setItem(storageKey,JSON.stringify(records));
+  } catch {
+    $('error').textContent = 'Não foi possível salvar. Verifique o armazenamento do navegador.';
+    return;
+  }
+  bookings = records;
+  editor.close();
+  render();
+  $('notice').textContent = message;
+}
+function latestBookings() {
+  try {
+    return readBookings();
+  } catch {
+    $('error').textContent = 'Não foi possível ler as reservas salvas.';
+    return null;
+  }
+}
+form.addEventListener('submit', event => {
+  event.preventDefault();
+  const record = {
+    id:editing ?? globalThis.crypto?.randomUUID?.() ?? ('reserva-' + Date.now()),
+    guest:field('guest').value.trim(), room:field('room').value, start:field('start').value, end:field('end').value,
+    channel:field('channel').value, rate:Number(field('rate').value),
+    daily:Math.round(Number(field('daily').value) * 100), received:Math.round(Number(field('received').value) * 100), canceled:false
+  };
+  const records = latestBookings();
+  if (!records) return;
+  let error = '';
+  const original = records.find(b => b.id === editing);
+  if (editing && (!original || original.canceled)) error = 'A reserva foi alterada em outra aba. Feche e abra novamente.';
+  else if (!record.guest) error = 'Informe o nome do hóspede ou grupo.';
+  else if (!(nights(record.start,record.end) > 0)) error = 'A saída deve ser posterior à entrada.';
+  else if (record.received > total(record)) error = 'O valor recebido não pode ultrapassar o total.';
+  else if (records.some(b => !b.canceled && b.id !== editing && b.room === record.room && overlaps(b.start,b.end,record.start,record.end))) {
+    error = 'Esse quarto já tem uma reserva no intervalo selecionado.';
+  }
+  if (error) {
+    $('error').textContent = error;
+    return;
+  }
+  const next = editing ? records.map(b => b.id === editing ? record : b) : [...records,record];
+  const previousWeek = week;
+  if (!overlaps(record.start,record.end,week,addDays(week,7))) week = record.start;
+  const previousFilter = $('filter').value;
+  if (previousFilter && previousFilter !== record.channel) $('filter').value = '';
+  persist(next,'Reserva salva.');
+  if (editor.open) {
+    week = previousWeek;
+    $('filter').value = previousFilter;
+  }
+});
+$('cancel-booking').onclick = () => {
+  if (!window.confirm('Cancelar esta reserva e liberar o quarto?')) return;
+  const records = latestBookings();
+  if (records) persist(records.map(b => b.id === editing ? {...b,canceled:true} : b),'Reserva cancelada.');
+};
+$('new').onclick = () => openEditor();
+$('close').onclick = () => editor.close();
+$('prev').onclick = () => { week = addDays(week,-7); render(); };
+$('next').onclick = () => { week = addDays(week,7); render(); };
+$('today').onclick = () => { week = today(); render(); };
+$('filter').onchange = render;
+form.oninput = updateEstimate;
+field('channel').onchange = () => { field('rate').value = field('channel').value === 'booking' ? 15 : 0; };
+document.querySelector('main').addEventListener('click', event => {
+  const button = event.target.closest('button[data-edit],button[data-room]');
+  if (!button) return;
+  if (button.dataset.edit) openEditor(bookings.find(b => b.id === button.dataset.edit));
+  else openEditor(null,button.dataset.room,button.dataset.day);
+});
+window.addEventListener('storage', event => {
+  if (event.key !== storageKey) return;
+  try {
+    bookings = readBookings();
+    render();
+  } catch {
+    $('notice').textContent = 'Não foi possível atualizar as reservas deste navegador.';
+  }
+});
+render();
+</script>
+</body>
+</html>
